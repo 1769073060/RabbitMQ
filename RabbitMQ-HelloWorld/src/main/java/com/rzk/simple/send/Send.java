@@ -1,4 +1,4 @@
-package com.rzk.send;
+package com.rzk.simple.send;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

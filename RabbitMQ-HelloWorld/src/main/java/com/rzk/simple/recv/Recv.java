@@ -1,4 +1,4 @@
-package com.rzk.recv;
+package com.rzk.simple.recv;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -6,7 +6,7 @@ import com.rabbitmq.client.DeliverCallback;
 
 
 /**
- * @PackageName : com.rzk.recv
+ * @PackageName : com.rzk.simple.recv
  * @FileName : Recv
  * @Description : 接收
  * @Author : rzk
