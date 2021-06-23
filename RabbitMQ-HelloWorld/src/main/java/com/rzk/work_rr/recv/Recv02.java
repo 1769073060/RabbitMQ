@@ -1,4 +1,4 @@
-package com.rzk.simple.recv;
+package com.rzk.work_rr.recv;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -8,13 +8,13 @@ import com.rabbitmq.client.DeliverCallback;
 /**
  * @PackageName : com.rzk.simple.recv
  * @FileName : Recv
- * @Description : 接收
+ * @Description : 工作队列-轮询-消息接收
  * @Author : rzk
  * @CreateTime : 23/6/2021 上午12:22
  * @Version : 1.0.0
  */
-public class Recv {
-    private final static String QUEUE_NAME = "hello";
+public class Recv02 {
+    private final static String QUEUE_NAME = "work_rr";
 
     public static void main(String[] argv) throws Exception {
         //创建工厂
@@ -33,8 +33,19 @@ public class Recv {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            //模拟消费耗时
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
+            /**
+             * 手动确认
+             * multiple: 是否确认多条
+             */
+            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false );
         };
         //监听队列消费消息
         channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });

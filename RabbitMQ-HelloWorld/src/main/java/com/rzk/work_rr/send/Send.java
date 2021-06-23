@@ -1,4 +1,4 @@
-package com.rzk.simple.send;
+package com.rzk.work_rr.send;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * @PackageName : com.rzk
  * @FileName : Send
- * @Description : 消息生产者
+ * @Description : 工作队列-轮询-消息生产者
  * @Author : rzk
  * @CreateTime : 23/6/2021 上午12:21
  * @Version : 1.0.0
@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 public class Send {
 
     //定义队列名称
-    private final static String QUEUE_NAME = "hello";
+    private final static String QUEUE_NAME = "work_rr";
 
     public static void main(String[] argv) throws Exception {
         //创建连接工厂
@@ -47,10 +47,13 @@ public class Send {
              * 第四个参数 Auto-delete ：自动删除，如果该队列没有任何订阅的消费者的话，该队列会被自动删除。这种队列适用于临时队列
              */
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-            String message = "Hello World!";
-            //队列消息的生产者:发送消息
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
-            System.out.println(" [x] Sent '" + message + "'");
+            for (int i = 0; i < 20; i++) {
+                String message = " Send  "+i;
+                //队列消息的生产者:发送消息
+                channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
+                System.out.println(" [x] Sent '" + message + "'" + i);
+            }
+
         }
     }
 }
