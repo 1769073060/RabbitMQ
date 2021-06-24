@@ -13,13 +13,13 @@ import com.rabbitmq.client.DeliverCallback;
  * @CreateTime : 23/6/2021 上午12:22
  * @Version : 1.0.0
  */
-public class Recv02 {
+public class Recv01 {
     private final static String QUEUE_NAME = "work_rr";
 
     public static void main(String[] argv) throws Exception {
         //创建工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("*");
+        factory.setHost("120.55.192.186");
         factory.setUsername("yeb");
         factory.setVirtualHost("/yeb");
         factory.setPassword("yeb");
@@ -33,7 +33,6 @@ public class Recv02 {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            //模拟消费耗时
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -47,7 +46,11 @@ public class Recv02 {
              */
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false );
         };
-        //监听队列消费消息
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+        /**
+         * 监听队列消费消息
+         * autoAck:自动应答
+         * 当消费者收到该消息,会返回通知消息队列 我消费者已经收到消息了
+         */
+        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> { });
     }
 }

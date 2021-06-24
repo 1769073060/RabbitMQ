@@ -23,7 +23,7 @@ public class Send {
     public static void main(String[] argv) throws Exception {
         //创建连接工厂
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("*");
+        factory.setHost("120.55.192.186");
         factory.setUsername("yeb");
         factory.setVirtualHost("/yeb");
         factory.setPassword("yeb");
@@ -53,7 +53,6 @@ public class Send {
                 channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
                 System.out.println(" [x] Sent '" + message + "'" + i);
             }
-
         }
     }
 }

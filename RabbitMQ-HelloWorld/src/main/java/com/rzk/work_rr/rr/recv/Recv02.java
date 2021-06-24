@@ -13,7 +13,7 @@ import com.rabbitmq.client.DeliverCallback;
  * @CreateTime : 23/6/2021 上午12:22
  * @Version : 1.0.0
  */
-public class Recv01 {
+public class Recv02 {
     private final static String QUEUE_NAME = "work_rr";
 
     public static void main(String[] argv) throws Exception {
@@ -33,6 +33,7 @@ public class Recv01 {
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+            //模拟消费耗时
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -42,7 +43,7 @@ public class Recv01 {
             System.out.println(" [x] Received '" + message + "'");
             /**
              * 手动确认
-             * multiple: 是否确认多条
+             * multiple: 是否确认多条或单条
              */
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false );
         };
